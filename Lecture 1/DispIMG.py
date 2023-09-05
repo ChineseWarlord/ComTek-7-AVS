@@ -6,18 +6,24 @@ Exercise 2
 
 - Simon
 """
-
+import numpy as np
 import cv2 as cv
 import sys
 
-img_dir = "images/Bente.jfif"
+img_dir = "images/Doraemon.png"
 
 if __name__ == "__main__":
     img = cv.imread(img_dir)
-    print(img)
 
     if img is None:
         print("Image not found")
+
+    # Print out pixel
+    count = 0
+    for i in img:
+        for j in i:
+            print(f"pixel {count}: {j}")
+            count += 1        
 
     cv.imshow("Window", img)
     k = cv.waitKey(0)
