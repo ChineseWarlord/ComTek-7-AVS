@@ -10,10 +10,11 @@ Exercise 2
 import cv2 as cv
 import sys
 
-img_dir = "images/"
+img_dir = "images/Bente.jfif"
 
 if __name__ == "__main__":
     img = cv.imread(img_dir)
+    print(img)
 
     if img is None:
         print("Image not found")
