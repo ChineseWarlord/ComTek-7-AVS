@@ -14,7 +14,7 @@ import numpy as np
 import cv2 as cv
 import sys
 
-img_dir = "images/Bente.png"
+img_dir = "../images/Bente.png"
 
 
 if __name__ == "__main__":
