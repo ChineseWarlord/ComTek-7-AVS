@@ -65,7 +65,7 @@ if __name__ == "__main__":
     filtered_img2 = mean_filter(img, 2)
     filtered_img3 = mean_filter(img, 3)
     
-    # Apply opencv function
+    # Apply mean opencv function
     opencv_blur1 = cv.blur(img, (3,3))
     opencv_blur2 = cv.blur(img, (5,5))
     opencv_blur3 = cv.blur(img, (7,7))
@@ -75,14 +75,28 @@ if __name__ == "__main__":
     filtered_img5 = median_filter(img, 2)
     filtered_img6 = median_filter(img, 3)
     
+    # Apply median opencv function
+    opencv_blur4 = cv.medianBlur(img, 3)
+    opencv_blur5 = cv.medianBlur(img, 5)
+    opencv_blur6 = cv.medianBlur(img, 7)
+    
+    # Apply gaussian opencv function
+    opencv_blur7 = cv.GaussianBlur(img,(3,3),0)
+    opencv_blur8 = cv.GaussianBlur(img,(5,5),0)
+    opencv_blur9 = cv.GaussianBlur(img,(7,7),0)
+    
+    
     # Add up all images in each row
     row1 = np.concatenate((filtered_img1,filtered_img2,filtered_img3), axis=1)
     row2 = np.concatenate((opencv_blur1,opencv_blur2,opencv_blur3), axis=1)
     row3 = np.concatenate((filtered_img4,filtered_img5,filtered_img6), axis=1)
-    disp_img = np.concatenate((row1,row2,row3), axis=0)
+    row4 = np.concatenate((opencv_blur4,opencv_blur5,opencv_blur6), axis=1)
+    row5 = np.concatenate((opencv_blur7,opencv_blur8,opencv_blur9), axis=1)
+    disp_img = np.concatenate((row1,row2,row3,row4), axis=0)
     
     # Display filtered images
-    cv.imshow("Window", disp_img)
+    cv.imshow("Window1", disp_img)
+    cv.imshow("Window2", row5)
     
     k = cv.waitKey(0)
     if k == ord("q"):
