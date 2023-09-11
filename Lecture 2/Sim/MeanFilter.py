@@ -24,7 +24,7 @@ def mean_filter(img, radius):
     # Iterate through each pixel, add neighbors, calculate mean, copy onto output img
     for y in range(radius, h - radius):
         for x in range(radius, w - radius):
-            neighbors = img[y - radius:y + radius, x - radius:x + radius]
+            neighbors = img[y - radius:y + radius + 1, x - radius:x + radius + 1]
             mean = np.mean(neighbors)
             img_copy[y,x] = mean
              
@@ -39,7 +39,7 @@ def median_filter(img, radius):
     # Iterate through each pixel, add neighbors, calculate median, copy onto output img
     for y in range(radius, h - radius):
         for x in range(radius, w - radius):
-            neighbors = img[y - radius:y + radius, x - radius:x + radius]
+            neighbors = img[y - radius:y + radius + 1, x - radius:x + radius + 1]
             median = np.median(neighbors)
             img_copy[y,x] = median
             
@@ -48,6 +48,15 @@ def median_filter(img, radius):
 
     
 if __name__ == "__main__":
+    #test = np.array([[1, 2, 3],
+    #                 [4, 5, 6],
+    #                 [7, 8, 9]])
+    #y,x = 2,2
+    #print(test[y-1:y+1+1])
+    #print(test[x-1:x+1+1])
+    #print(test[y-1:y+1+1,x-1:x+1+1])
+    #exit()
+    
     # Read the img
     img = cv.imread(img_dir, cv.IMREAD_GRAYSCALE)
     
