@@ -13,7 +13,7 @@ import sys
 import numpy as np
 
 if __name__=='__main__':
-    img = cv.imread("images/bente.png")
+    img = cv.imread("../images/bente.png")
 
     cv.imshow('Test', img)
     cv.waitKey(0)
