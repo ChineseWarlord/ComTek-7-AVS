@@ -46,8 +46,10 @@ if __name__ == "__main__":
     res = cv.matchTemplate(norm_img,template,method)
     ret, thresh = cv.threshold(res,threshold,255,cv.THRESH_BINARY)
     
-    print(f"Matching Result: {res}")
-    print(f"Matching + Thresholding Result: {thresh}")
+    print(f"Normalized Image: {norm_img}")
+    print(f"Min: {np.min(norm_img)}, Max: {np.max(norm_img)}")
+    #print(f"Matching Result: {res}")
+    #print(f"Matching + Thresholding Result: {thresh}")
     
     # Plot the result and original img
     plt.subplot(141),plt.imshow(img, cmap = 'gray')
