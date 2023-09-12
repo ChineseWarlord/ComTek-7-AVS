@@ -10,7 +10,7 @@ import cv2 as cv
 import matplotlib.pyplot as plt
 import time
 
-img_dir = "../images/Bente.png"
+img_dir = "../images/Einstein.tif"
 
 def stretch(img):
     min = np.min(img)
