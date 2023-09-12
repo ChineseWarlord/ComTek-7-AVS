@@ -25,7 +25,7 @@ if __name__ == "__main__":
     cv.TM_CCORR_NORMED, cv.TM_SQDIFF, cv.TM_SQDIFF_NORMED]
     
     # Choose a method
-    method = methods[3]
+    method = methods[1]
     
     # Create a dictionary to map method integers to string representations
     method_names = {
@@ -41,12 +41,13 @@ if __name__ == "__main__":
     method_string = method_names.get(method, 'Unknown Method')
     
     # Apply template matching, normalization + threshholding
-    threshold = 0.7085
+    threshold = 0.5
     norm_img = cv.normalize(img, None, 0, 1, cv.NORM_MINMAX)
     res = cv.matchTemplate(norm_img,template,method)
     ret, thresh = cv.threshold(res,threshold,255,cv.THRESH_BINARY)
     
     print(f"Matching Result: {res}")
+    print(f"Matching + Thresholding Result: {thresh}")
     
     # Plot the result and original img
     plt.subplot(141),plt.imshow(img, cmap = 'gray')
@@ -58,4 +59,5 @@ if __name__ == "__main__":
     plt.subplot(144),plt.imshow(thresh, cmap = 'gray')
     plt.title('Matching Result + Threshold'), plt.xticks([]), plt.yticks([])
     plt.suptitle(method_string)
+    plt.tight_layout()
     plt.show()
