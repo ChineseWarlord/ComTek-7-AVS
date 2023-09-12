@@ -9,7 +9,6 @@ import cv2 as cv
 
 #ONLY FOR GRAYSCALE
 def stretch(img):
-    img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     min = np.min(img)
     max = np.max(img)
 
