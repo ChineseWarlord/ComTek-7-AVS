@@ -18,34 +18,44 @@ img_template = "../images/template_color.png"
 if __name__ == "__main__":
     # Read the img
     img = cv.imread(img_dir, cv.IMREAD_GRAYSCALE)
-    img2 = img.copy()
-    
     template = cv.imread(img_template, cv.IMREAD_GRAYSCALE)
-    w, h = template.shape
     
     # All the 6 methods for comparison in a list
-    methods = ['cv.TM_CCOEFF', 'cv.TM_CCOEFF_NORMED', 'cv.TM_CCORR',
-    'cv.TM_CCORR_NORMED', 'cv.TM_SQDIFF', 'cv.TM_SQDIFF_NORMED']
-
-    for meth in methods:
-        img = img2.copy()
-        method = eval(meth)
-        
+    methods = [cv.TM_CCOEFF, cv.TM_CCOEFF_NORMED, cv.TM_CCORR,
+    cv.TM_CCORR_NORMED, cv.TM_SQDIFF, cv.TM_SQDIFF_NORMED]
     
-    # Apply template Matching
-    res = cv.matchTemplate(img,template,cv.TM_CCORR_NORMED)
-    min_val, max_val, min_loc, max_loc = cv.minMaxLoc(res)
-    # If the method is TM_SQDIFF or TM_SQDIFF_NORMED, take minimum
-    if method in [cv.TM_SQDIFF, cv.TM_SQDIFF_NORMED]:
-        top_left = min_loc
-    else:
-        top_left = max_loc
-        bottom_right = (top_left[0] + w, top_left[1] + h)
-        cv.rectangle(img,top_left, bottom_right, 255, 2)
+    # Choose a method
+    method = methods[3]
     
-    plt.subplot(121),plt.imshow(res,cmap = 'gray')
+    # Create a dictionary to map method integers to string representations
+    method_names = {
+        cv.TM_CCOEFF: 'TM_CCOEFF',
+        cv.TM_CCOEFF_NORMED: 'TM_CCOEFF_NORMED',
+        cv.TM_CCORR: 'TM_CCORR',
+        cv.TM_CCORR_NORMED: 'TM_CCORR_NORMED',
+        cv.TM_SQDIFF: 'TM_SQDIFF',
+        cv.TM_SQDIFF_NORMED: 'TM_SQDIFF_NORMED'
+    }
+    
+    # Use the dictionary to get the string representation of the method
+    method_string = method_names.get(method, 'Unknown Method')
+    
+    # Apply template matching, normalization + threshholding
+    threshold = 0.7085
+    norm_img = cv.normalize(img, None, 0, 1, cv.NORM_MINMAX)
+    res = cv.matchTemplate(norm_img,template,method)
+    ret, thresh = cv.threshold(res,threshold,255,cv.THRESH_BINARY)
+    
+    print(f"Matching Result: {res}")
+    
+    # Plot the result and original img
+    plt.subplot(141),plt.imshow(img, cmap = 'gray')
+    plt.title('Original Image'), plt.xticks([]), plt.yticks([])
+    plt.subplot(142),plt.imshow(norm_img, cmap = 'gray')
+    plt.title('Normalized Image'), plt.xticks([]), plt.yticks([])
+    plt.subplot(143),plt.imshow(res, cmap = 'gray')
     plt.title('Matching Result'), plt.xticks([]), plt.yticks([])
-    plt.subplot(122),plt.imshow(img,cmap = 'gray')
-    plt.title('Detected Point'), plt.xticks([]), plt.yticks([])
-    plt.suptitle(meth)
+    plt.subplot(144),plt.imshow(thresh, cmap = 'gray')
+    plt.title('Matching Result + Threshold'), plt.xticks([]), plt.yticks([])
+    plt.suptitle(method_string)
     plt.show()
