@@ -1,5 +1,6 @@
 import cv2 as cv
 import os
+from glob import glob
 
 def make_frames(clip_dir):
     pathOut = clip_dir.replace('.mp4','')
@@ -16,3 +17,8 @@ def make_frames(clip_dir):
         if count%25 == 0 and os.path.isfile(anno_path):
             cv.imwrite(frame_path, image)
         count+=1
+
+if __name__=='__main__':
+    clips = glob(os.path.join('data/clips/', '*/*.mp4'))
+    for clip in clips:
+        make_frames(clip)
