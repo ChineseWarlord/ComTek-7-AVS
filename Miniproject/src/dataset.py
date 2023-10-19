@@ -23,7 +23,10 @@ class FrameDataset(torch.utils.data.Dataset):
         annotations_path = img_path.replace('clips', 'annotations').replace('.jpg', '.txt').replace('frame', 'annotations')
         
         #Turn frame to tensor. Ready to return. Might need to change if we need temporal info
-        frame = torch.tensor(cv.imread(img_path))
+
+        frame = cv.imread(img_path).astype(float)/255
+        frame = frame.transpose((2, 0, 1))
+        frame = torch.tensor(frame).type(torch.float)
 
         #Reading annotations as a DataFrame due to strings. Maybe there is a more optimal way
         annos = pd.read_csv(annotations_path, names = self.columns, delimiter=' ', usecols= range(6))
@@ -39,23 +42,24 @@ class FrameDataset(torch.utils.data.Dataset):
         return frame, target
     
 def custom_collate(batches):
-    # batches is a list of samples, where each sample is a tuple (frame, target)
-    frame, _ = zip(*batches)
+    return tuple(zip(*batches))
+    # # batches is a list of samples, where each sample is a tuple (frame, target)
+    # frame, _ = zip(*batches)
 
-    # Append each box/label tensor into their own variable
-    boxes_list = [target["boxes"] for _, target in batches]
-    labels_list = [target["labels"] for _, target in batches]
-    # print(f"boxes list: {boxes_list}")
-    # print(f"labels list: {labels_list}")
+    # # Append each box/label tensor into their own variable
+    # boxes_list = [target["boxes"] for _, target in batches]
+    # labels_list = [target["labels"] for _, target in batches]
+    # # print(f"boxes list: {boxes_list}")
+    # # print(f"labels list: {labels_list}")
 
-    # For each batch we pad the samples so they match the biggest tensor
-    padded_boxes = pad_sequence(boxes_list, True)
-    padded_labels = pad_sequence(labels_list, True)
-    # print(f"padded_boxes: {padded_boxes}")
-    # print(f"padded_labels: {padded_labels}")
+    # # For each batch we pad the samples so they match the biggest tensor
+    # padded_boxes = pad_sequence(boxes_list, True)
+    # padded_labels = pad_sequence(labels_list, True)
+    # # print(f"padded_boxes: {padded_boxes}")
+    # # print(f"padded_labels: {padded_labels}")
 
-    # Pack everything nicely as before
-    packed_batch = [frame, {"boxes": padded_boxes, "labels": padded_labels}]
-    # print(f"packed_batch: {packed_batch}")
+    # # Pack everything nicely as before
+    # packed_batch = [frame, {"boxes": padded_boxes, "labels": padded_labels}]
+    # # print(f"packed_batch: {packed_batch}")
 
-    return packed_batch
+    # return packed_batch
