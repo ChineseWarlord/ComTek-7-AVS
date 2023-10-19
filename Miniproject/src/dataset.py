@@ -3,6 +3,7 @@ import pandas as pd
 import torch
 import cv2 as cv
 from glob import glob
+from torch.nn.utils.rnn import pad_sequence
 
 class FrameDataset(torch.utils.data.Dataset):
     def __init__(self, root, label_encoder, transform=None, target_transform=None):
@@ -36,3 +37,25 @@ class FrameDataset(torch.utils.data.Dataset):
         if self.target_transform:
             label = self.target_transform(label)
         return frame, target
+    
+def custom_collate(batches):
+    # batches is a list of samples, where each sample is a tuple (frame, target)
+    frame, _ = zip(*batches)
+
+    # Append each box/label tensor into their own variable
+    boxes_list = [target["boxes"] for _, target in batches]
+    labels_list = [target["labels"] for _, target in batches]
+    # print(f"boxes list: {boxes_list}")
+    # print(f"labels list: {labels_list}")
+
+    # For each batch we pad the samples so they match the biggest tensor
+    padded_boxes = pad_sequence(boxes_list)
+    padded_labels = pad_sequence(labels_list)
+    # print(f"padded_boxes: {padded_boxes}")
+    # print(f"padded_labels: {padded_labels}")
+
+    # Pack everything nicely as before
+    packed_batch = [frame, {"boxes": padded_boxes, "labels": padded_labels}]
+    # print(f"packed_batch: {packed_batch}")
+
+    return packed_batch
