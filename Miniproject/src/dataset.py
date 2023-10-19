@@ -49,8 +49,8 @@ def custom_collate(batches):
     # print(f"labels list: {labels_list}")
 
     # For each batch we pad the samples so they match the biggest tensor
-    padded_boxes = pad_sequence(boxes_list)
-    padded_labels = pad_sequence(labels_list)
+    padded_boxes = pad_sequence(boxes_list, True)
+    padded_labels = pad_sequence(labels_list, True)
     # print(f"padded_boxes: {padded_boxes}")
     # print(f"padded_labels: {padded_labels}")
 
