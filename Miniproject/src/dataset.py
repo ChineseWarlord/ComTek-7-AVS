@@ -30,7 +30,7 @@ class FrameDataset(torch.utils.data.Dataset):
 
         target = {}
         target['boxes'] = torch.tensor(annos[['x1', 'y1', 'x2', 'y2']].astype(float).to_numpy())
-        target['labels'] = torch.tensor(self.label_encoder.transform(annos['class']))
+        target['labels'] = torch.tensor(self.label_encoder.transform(annos['class'])).type(torch.int64)
     
         if self.transform:
             image = self.transform(image)
