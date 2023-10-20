@@ -1,6 +1,9 @@
 # Visual Studio Code User Settings
 .vscode/*
 
+# Miscellaneous
+*.lst
+
 ###  C / C++ Language Template ### 
 # Prerequisites
 *.d
