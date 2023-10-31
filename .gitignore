@@ -220,5 +220,5 @@ cython_debug/
 #.idea/
 
 # ignore data
-data/
+**/data/full
 products/
