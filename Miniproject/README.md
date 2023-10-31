@@ -4,9 +4,10 @@
 **Computer Engineering - 7th Semester**
 **Department of Electronic Systems - Aalborg University - November 2023**
 
+### Contributors
 Esben Dissing Bregnballe, Sameer Aqib  Hashmi, Simon Loi Baks, Vasiliki Ismiroglou
 
-## References
+### References
 -Nikolov, I., Philipsen, M. P., Liu, J., Dueholm, J. V., Johansen, A. S., Nasrollahi, K., & Moeslund, T. B. (2023, May 23). 
  Seasons in drift: A long term thermal imaging dataset for studying... OpenReview. https://openreview.net/forum?id=LjjqegBNtPi 
  https://www.kaggle.com/datasets/ivannikolov/longterm-thermal-drift-dataset
